@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Aggregator</title>
     <style>
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
         * {
             margin: 0;
             box-sizing: border-box;
@@ -16,7 +18,7 @@
         }
 
         body {
-    background: url('salmon.avif'); /* Replace 'sa.jpg' with the actual image file name and extension */
+    background: url('salmon.avif');
     color: #fff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
@@ -97,10 +99,11 @@
 }
 
         h1 {
-            font-size: 52px;
+            font-size: 45px;
             margin-bottom: 20px;
             text-align: center;
             color: #f8f8f8;
+            font-family: 'Poppins', sans-serif;
             
         }
 
@@ -135,7 +138,7 @@
 
         .info-block {
             width: calc(50% - 20px);
-            max-width: 200px;
+            max-width: 208px;
             margin-bottom: 40px;
             border: 1px solid rgba(255, 255, 255, 0.7);
             padding: 25px;
@@ -212,7 +215,7 @@
 
         h1 {
             position: relative;
-            font-size: 55px;
+            font-size: 52px;
             bottom:1px;
             left:25px;
             margin: 0;
@@ -231,6 +234,42 @@
     animation: bounceAnimation 0.8s ease infinite;
     transform: scale(2);
 }
+
+     .dropdown-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            WIDTH:1000PX;
+        }
+
+        #currencySelect {
+            position: relative;
+            TOP:28.5PX;
+            margin-right: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            font-size: 14px;
+            WIDTH:68PX;
+        }
+
+        #currencySelect:focus {
+            outline: none;
+            border-color: #66afe9;
+            box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
+            width:68.7PX;
+            
+        }
+
+        #exchangeRateValue {
+            position: relative;
+            LEFT:100PX;
+            BOTTOM:2PX;
+            font-size: 16px;
+            font-weight: 600;
+            color: #353535;
+        }
 
 @keyframes bounceAnimation {
     0%, 20%, 50%, 80%, 100% {
@@ -310,7 +349,7 @@
 
   
 
-        @media screen and (max-width: 950px) {
+        @media screen and (max-width: 970px) {
 
             .header svg{
             visibility: hidden;
@@ -354,7 +393,31 @@
             
         }
 
-        @media screen and (max-width: 515px) {
+        @media screen and (max-width: 600px) {
+            .info-block {
+                width: 100%;
+            }
+
+            .info-block-container {
+                justify-content: space-evenly;
+            }
+
+            .copyright {
+                margin-top: 0;
+            }
+
+            h1 {
+                position: relative;
+            font-size: 40px;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #f8f8f8;
+            line-height: 60px;
+            left:40px;
+            
+        }
+
+        @media screen and (max-width: 529px) {
             .info-block {
                 width: 100%;
             }
@@ -370,7 +433,7 @@
             h1 {
                 width:100%;
                 position: relative;
-            font-size: 35px;
+            font-size: 37px;
             margin-bottom: 10px;
             text-align: center;
             color: #f8f8f8;
@@ -417,6 +480,28 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     <script>
+
+$(function () {
+            
+            const exchangeRates = {
+                JPY: 112.50,
+                EUR: 0.84,
+                GBP: 0.74,
+                CAD: 1.26,
+                AUD: 1.33
+            };
+
+            function updateExchangeRate(currency) {
+                let usdValue = 1;
+                let convertedValue = (usdValue * exchangeRates[currency]).toFixed(2);
+                $('#exchangeRateValue').text(`$${convertedValue} `);
+            }
+
+            $('#currencySelect').change(function () {
+                let selectedCurrency = $(this).val();
+                updateExchangeRate(selectedCurrency);
+            });
+        });
 
 
         $(function () {
@@ -545,7 +630,18 @@
         <div class="info-block animated-border" id="usd-course">
             <h2>Dollar Exchange Rate</h2>
             <hr>
-            <span class="value">$136.80</span>
+
+            <div>
+                <label for="currencySelect">Select Currency:</label>
+                <select id="currencySelect" class="form-control">
+                    <option value="JPY">JPY ¥</option>
+                    <option value="EUR">EUR €</option>
+                    <option value="GBP">GBP £</option>
+                    <option value="CAD">CAD $</option>
+                    <option value="AUD">TRY ₺</option>
+                </select>
+            </div>
+            <span class="value" id="exchangeRateValue">$136.80</span>
         </div>
         <div class="info-block animated-border" id="weather">
             <h2>Temperature in Your Area (C&deg;/F)</h2>
