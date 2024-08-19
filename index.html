@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="icon" type="image/png" sizes="16x16" href="data.svj">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/aggreg.png">
+    <title>Data Aggregation Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        span {
+            font-weight: 600;
+            color: #c1c0c0a7
+        }
+
+        body {
+
+            background: url('salmon.avif');
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        section {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: linear-gradient(to bottom left, #2ecc71, #3498db);
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 5px solid rgba(1, 255, 115, 0.898);
+        }
+
+        .info-block .fahrenheit {
+            margin-bottom: 10px;
+            font-size: 20px;
+            white-space: nowrap;
+            color: #333;
+        }
+
+        .info-block-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            background: linear-gradient(to bottom right, #2ecc71, #3498db);
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+            border: 5px solid rgb(0, 255, 119);
+        }
+
+        #weather .value {
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+
+        #weather .value:hover {
+            transform: scale(1.1);
+            color: #e74c3c;
+        }
+
+        .info-block-container::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            bottom: -5px;
+            left: -5px;
+            z-index: -1;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: borderAnimation 4s linear infinite;
+        }
+
+        @keyframes borderAnimation {
+            0% {
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 0 10px rgba(1, 255, 204, 0.898);
+            }
+
+            25% {
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 0 10px rgb(237, 229, 0);
+            }
+
+            50% {
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 0 10px rgba(111, 255, 1, 0.898);
+            }
+
+            75% {
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 0 10px rgb(255, 18, 18);
+            }
+
+            100% {
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 0 10px rgba(255, 1, 179, 0.898);
+            }
+        }
+
+        h1 {
+            font-size: 45px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #f8f8f8;
+            font-family: 'Poppins', sans-serif;
+
+        }
+
+        .info-block h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #2ecc71;
+            position: relative;
+        }
+
+        .info-block h2:after {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 1px;
+            background-color: #2ecc71;
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+        }
+
+        .info-block-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            background: linear-gradient(to bottom right, #2ecc71, #3498db);
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .info-block {
+            width: calc(50% - 20px);
+            max-width: 208px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 220px;
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .info-block:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-block h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #2ecc71;
+        }
+
+        .info-block .value {
+            margin-bottom: 10px;
+            font-size: 20px;
+            white-space: nowrap;
+            color: #333;
+        }
+
+        .info-block.animated-border {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-block.animated-border:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            border: 4px solid transparent;
+            border-radius: 8px;
+            animation: borderAnimation 4s linear infinite;
+            cursor: pointer;
+        }
+
+        .arrow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .arrow-svg {
+            position: relative;
+            bottom: 1px;
+            right: -30px;
+            ;
+            width: 80px;
+            height: 80px;
+            color: #17e600;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            position: relative;
+            font-size: 52px;
+            bottom: 1px;
+            left: 25px;
+            margin: 0;
+        }
+
+        .header svg {
+            position: relative;
+            right: 20px;
+            height: 122px;
+            width: 122px;
+            cursor: pointer;
+            transition: transform 0.6s ease;
+        }
+
+        .header svg:hover {
+            animation: bounceAnimation 0.8s ease infinite;
+            transform: scale(2);
+        }
+
+        .dropdown-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            WIDTH: 1000PX;
+        }
+
+        #currencySelect {
+            position: relative;
+            TOP: 28.5PX;
+            margin-right: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            font-size: 14px;
+            WIDTH: 85PX;
+        }
+
+        #currencySelect:focus {
+            outline: none;
+            border-color: #66afe9;
+            box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
+            width: 68.7PX;
+
+        }
+
+        #exchangeRateValue {
+            position: relative;
+            LEFT: 100PX;
+            BOTTOM: 2PX;
+            font-size: 16px;
+            font-weight: 600;
+            color: #353535;
+        }
+
+        @keyframes bounceAnimation {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            20% {
+                transform: translateY(-10px);
+            }
+
+            80% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .header svg path,
+        .header svg circle {
+            fill: linear-gradient(to right, #808080, #ffffff);
+            stroke: #808080;
+            stroke-width: 0.25px;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: fillAnimation 6s ease-in-out infinite;
+        }
+
+
+        @keyframes fillAnimation {
+            0% {
+
+                fill: #00ffa2;
+            }
+
+            50% {
+                fill: #ffffff;
+            }
+
+            75% {
+                fill: #00ffbb;
+            }
+
+            90% {
+                fill: #ffffff;
+            }
+
+            100% {
+                fill: #00ffa2;
+            }
+        }
+
+
+
+
+        .explore-text:hover {
+            color: #e74c3c;
+        }
+
+        @keyframes borderAnimation {
+            0% {
+                border-color: #02fdaa;
+            }
+
+            50% {
+                border-color: #06ffd6;
+            }
+
+            75% {
+                border-color: #00eaff;
+            }
+
+            100% {
+                border-color: #02fdaa;
+            }
+        }
+
+        .copyright {
+            text-align: center;
+            font-size: 16px;
+            color: #ffffff;
+            margin-top: 15px;
+            padding: 10px;
+            border-top: 1px solid #ffffff;
+        }
+
+
+
+        @media screen and (max-width: 970px) {
+
+            .header svg {
+                visibility: hidden;
+
+
+            }
+
+            h1 {
+                position: relative;
+                font-size: 55px;
+                margin-bottom: 10px;
+
+                text-align: center;
+                color: #f8f8f8;
+                line-height: 80px;
+                left: 40px;
+
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .info-block {
+                width: 100%;
+            }
+
+            .info-block-container {
+                justify-content: space-evenly;
+            }
+
+            .copyright {
+                margin-top: 0;
+            }
+
+            h1 {
+                position: relative;
+                font-size: 45px;
+                margin-bottom: 10px;
+                text-align: center;
+                color: #f8f8f8;
+                line-height: 60px;
+                left: 40px;
+
+            }
+
+            @media screen and (max-width: 600px) {
+                .info-block {
+                    width: 100%;
+                }
+
+                .info-block-container {
+                    justify-content: space-evenly;
+                }
+
+                .copyright {
+                    margin-top: 0;
+                }
+
+                h1 {
+                    position: relative;
+                    font-size: 40px;
+                    margin-bottom: 10px;
+                    text-align: center;
+                    color: #f8f8f8;
+                    line-height: 60px;
+                    left: 40px;
+
+                }
+
+                @media screen and (max-width: 529px) {
+                    .info-block {
+                        width: 100%;
+                    }
+
+                    .info-block-container {
+                        justify-content: space-evenly;
+                    }
+
+                    .copyright {
+                        margin-top: 0;
+                    }
+
+                    h1 {
+                        width: 100%;
+                        position: relative;
+                        font-size: 37px;
+                        margin-bottom: 10px;
+                        text-align: center;
+                        color: #f8f8f8;
+                        line-height: 50px;
+                        left: 40px;
+
+                    }
+                }
+
+                @media screen and (max-width: 460px) {
+                    .info-block {
+                        width: 100%;
+                    }
+
+                    .info-block-container {
+                        justify-content: space-evenly;
+                    }
+
+                    .copyright {
+                        margin-top: 0;
+                    }
+
+                    h1 {
+                        width: 100%;
+                        position: relative;
+                        font-size: 31px;
+                        margin-bottom: 10px;
+                        text-align: center;
+                        color: #f8f8f8;
+                        line-height: 45px;
+                        left: 40px;
+
+                    }
+                }
+
+
+
+                .header svg {
+                    visibility: hidden;
+                }
+            }
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+
+        $(function () {
+
+            const exchangeRates = {
+                JPY: 112.50,
+                EUR: 0.84,
+                GBP: 0.74,
+                CAD: 1.26,
+                AUD: 1.33
+            };
+
+            function updateExchangeRate(currency) {
+                let usdValue = 1;
+                let convertedValue = (usdValue * exchangeRates[currency]).toFixed(2);
+                $('#exchangeRateValue').text(`$${convertedValue} `);
+            }
+
+            $('#currencySelect').change(function () {
+                let selectedCurrency = $(this).val();
+                updateExchangeRate(selectedCurrency);
+            });
+        });
+
+
+        $(function () {
+
+            let api = 'api.php';
+
+            let updateUsdCourse = function () {
+                let request = { 'url': 'https://www.cbr.ru/' };
+                $.get(api, request, function (response) {
+                    let result = $(response).find('._dollar + div').text();
+                    $('#usd-course > .value').text(result);
+                });
+            }
+
+            let updateSanAntonioWeather = function () {
+                $.get('https://api.openweathermap.org/data/2.5/weather?q=San+Antonio&appid=YOUR_OPENWEATHERMAP_API_KEY', function (data) {
+                    let temperature = (data.main.temp - 273.15).toFixed(2) + '°C';
+                    $('#weather > .value').text(temperature);
+                });
+            }
+
+            let updateWikipedia = function () {
+                $.get('https://en.wikipedia.org/w/api.php?action=query&format=json&list=statistics&utf8=1', function (data) {
+                    let articleCount = data.query.statistics.pages;
+                    $('#wiki-articles > .value').text(articleCount);
+                });
+            }
+
+            let updateStockMarketIndex = function () {
+
+                $.get('https://api.example.com/stock-market-index', function (data) {
+                    let indexValue = data.value;
+                    $('#stock-market > .value').text(indexValue);
+                });
+            }
+
+            let updateGoldPrice = function () {
+
+                $.get('https://api.example.com/gold-price', function (data) {
+                    let goldPrice = data.price;
+                    $('#gold-price > .value').text('$' + goldPrice);
+                });
+            }
+
+            let updateCryptocurrencyRate = function () {
+
+                $.get('https://api.example.com/cryptocurrency-rate', function (data) {
+                    let cryptoRate = data.rate;
+                    $('#crypto-rate > .value').text(cryptoRate);
+                });
+            }
+
+            let updateAdditionalInfo = function () {
+
+                $.get('https://api.example.com/additional-info', function (data) {
+                    let additionalInfo = data.value;
+                    $('#additional-info > .value').text(additionalInfo);
+                });
+            }
+
+            let updateAllData = function () {
+                updateUsdCourse();
+                updateSanAntonioWeather();
+                updateWikipedia();
+                updateStockMarketIndex();
+                updateGoldPrice();
+                updateCryptocurrencyRate();
+                updateAdditionalInfo();
+            }
+
+            updateAllData();
+        });
+
+        function celsiusToFahrenheit(celsius) {
+            return (celsius * 9 / 5) + 32;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            let temperatureElement = document.getElementById('weather').getElementsByClassName('value')[0];
+
+
+            let originalCelsius = parseFloat(temperatureElement.innerHTML);
+
+            temperatureElement.addEventListener('mouseover', function () {
+
+                let isFahrenheit = temperatureElement.classList.contains('fahrenheit');
+
+                if (!isFahrenheit) {
+
+                    let fahrenheit = celsiusToFahrenheit(originalCelsius);
+                    temperatureElement.innerHTML = fahrenheit.toFixed(2) + '°F';
+
+                    temperatureElement.classList.add('fahrenheit');
+                }
+            });
+
+
+            temperatureElement.addEventListener('mouseout', function () {
+
+                temperatureElement.classList.remove('fahrenheit');
+                temperatureElement.innerHTML = originalCelsius.toFixed(2) + '°C';
+            });
+        });
+
+
+    </script>
+
+</head>
+
+<body>
+    <section class="header">
+        <h1>Data Aggregation Dashboard
+        </h1>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="840.000000pt" height="572.000000pt"
+            viewBox="0 0 840.000000 572.000000" preserveAspectRatio="xMidYMid meet">
+
+            <g transform="translate(0.000000,572.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+                <path
+                    d="M3905 5410 c-920 -82 -1610 -414 -1785 -861 -72 -184 -7 -383 190 -579 52 -52 129 -118 170 -146 459 -313 1169 -478 1910 -443 481 23 907 121 1260 290 193 93 323 181 441 298 188 188 257 380 198 553 -147 432 -784 770 -1649 873 -158 19 -588 28 -735 15z" />
+                <path
+                    d="M2082 3620 c4 -246 6 -282 25 -338 72 -215 295 -430 608 -585 453 -224 1039 -331 1674 -305 487 20 948 130 1315 314 297 149 519 367 589 576 18 56 21 93 24 338 l4 275 -78 -76 c-336 -329 -860 -540 -1553 -626 -180 -22 -758 -25 -939 -5 -694 78 -1244 294 -1584 621 l-89 86 4 -275z" />
+                <path
+                    d="M2082 2595 c4 -281 7 -315 25 -365 49 -133 102 -209 229 -329 400 -379 1241 -609 2061 -562 507 28 922 126 1279 301 329 162 530 353 616 587 20 53 22 82 26 366 2 169 1 307 -2 307 -3 0 -27 -23 -53 -51 -183 -196 -497 -376 -863 -496 -196 -64 -507 -128 -745 -153 -164 -18 -603 -24 -775 -11 -747 57 -1344 278 -1718 636 l-84 80 4 -310z" />
+                <path
+                    d="M2080 1599 c0 -316 7 -367 65 -484 78 -156 175 -258 376 -391 608 -403 1701 -537 2584 -318 597 148 1017 412 1162 729 45 99 53 165 53 459 l0 258 -99 -94 c-447 -429 -1293 -667 -2225 -627 -773 34 -1439 264 -1817 627 l-99 94 0 -253z" />
+            </g>
+        </svg>
+    </section>
+
+    <section class="info-block-container">
+        <div class="info-block animated-border" id="usd-course">
+            <h2>Dollar Exchange Rate</h2>
+            <div>
+                <label for="currencySelect">Select Currency:</label>
+                <select id="currencySelect" class="form-control">
+                    <option value="JPY">JPY ¥</option>
+                    <option value="EUR">EUR €</option>
+                    <option value="GBP">GBP £</option>
+                    <option value="CAD">CAD $</option>
+                    <option value="AUD">TRY ₺</option>
+                </select>
+            </div>
+            <span class="value" id="exchangeRateValue">$136.80</span>
+        </div>
+        <div class="info-block animated-border" id="weather">
+            <h2>Temperature in Your Area (C&deg;/F)</h2>
+            <span class="value" data-celsius="25">25&deg;C</span>
+        </div>
+        <div class="info-block animated-border" id="wiki-articles">
+            <h2>Total market cap of NASDAQ</h2>
+            <span class="value">$32.33 billion</span>
+        </div>
+        <div class="info-block animated-border" id="stock-market">
+            <h2>Stock Market Index </h2>
+            <span class="value">1250.45</span>
+        </div>
+        <div class="info-block animated-border" id="gold-price">
+            <h2>Gold Price Per (.oz)</h2>
+            <span class="value">$1800.00</span>
+        </div>
+        <div class="info-block animated-border" id="crypto-rate">
+            <h2>Crypto Exchange Rate</h2>
+            <span class="value">0.0023 BTC</span>
+        </div>
+        <div class="info-block animated-border" id="additional-info">
+            <h2>S&P 500 Index Value</h2>
+            <span class="value">4,688.68</span>
+        </div>
+        <div class="info-block animated-border" id="site-status">
+            <h2>Explore more Information</h2>
+            <div class="arrow-container">
+                <a href="https://1900wealth.com/?gad_source=1&gclid=CjwKCAiA7t6sBhAiEiwAsaieYiw3YqMAZ9p-kiFSequ3CbWWclMb3CI0nRZ7YbWDzjLuwktmKPoUxxoCtHAQAvD_BwE"
+                    target="_blank" rel="noopener noreferrer">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"
+                        class="arrow-svg">
+                        <path
+                            d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zm-28.9 143.6l75.5 72.4H120c-13.3 0-24 10.7-24 24v16c0 13.3 10.7 24 24 24h182.6l-75.5 72.4c-9.7 9.3-9.9 24.8-.4 34.3l11 10.9c9.4 9.4 24.6 9.4 33.9 0L404.3 273c9.4-9.4 9.4-24.6 0-33.9L271.6 106.3c-9.4-9.4-24.6-9.4-33.9 0l-11 10.9c-9.5 9.6-9.3 25.1 .4 34.4"
+                            fill="#00ff00" />
+                    </svg>
+
+                </a>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>© 2024 All rights reserved. This Data Aggregation Dashboard is the proprietary intellectual property of
+                Nikita Schasny. The information, graphics, and content displayed on this dashboard are confidential and may not
+                be disclosed or used without the express written consent of Nikita Schasny.</p>
+        </div>
+    </section>
+</body>
+
+</html> 
